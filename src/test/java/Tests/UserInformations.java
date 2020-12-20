@@ -1,8 +1,11 @@
 package Tests;
 
+import org.easetech.easytest.annotation.DataLoader;
+import org.easetech.easytest.runner.DataDrivenTestRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(DataDrivenTestRunner)
+@DataLoader(filePaths = "UserInformations.csv")
 public class UserInformations {
     private WebDriver driver;
     @Before
