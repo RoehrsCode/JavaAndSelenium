@@ -1,6 +1,7 @@
 package Tests;
 
 import org.easetech.easytest.annotation.DataLoader;
+import org.easetech.easytest.annotation.Param;
 import org.easetech.easytest.runner.DataDrivenTestRunner;
 import org.junit.After;
 import org.junit.Before;
@@ -10,15 +11,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(DataDrivenTestRunner)
+@RunWith(DataDrivenTestRunner.class)
 @DataLoader(filePaths = "UserInformations.csv")
 public class UserInformations {
     private WebDriver driver;
@@ -51,7 +50,7 @@ public class UserInformations {
         driver.findElement(By.linkText("MORE DATA ABOUT YOU")).click();
     }
     @Test
-    public void AddInformation() {
+    public void AddInformation(@Param(name="types")String types, @Param(name="contacts")String contacts, @Param(name="messages")String messageEx) {
         //validation
 
         driver.findElement(By.xpath("//div[@id='moredata']//button[@data-target=\"addmoredata\"]")).click();
@@ -59,34 +58,30 @@ public class UserInformations {
         WebElement popData = driver.findElement(By.id("addmoredata"));
 
         WebElement comboBox = popData.findElement(By.name("type"));
-        new Select(comboBox).selectByVisibleText("Phone");
+        new Select(comboBox).selectByVisibleText(types);
 
-        popData.findElement(By.name("contact")).sendKeys("999969999999999");
+        popData.findElement(By.name("contact")).sendKeys(contacts);
         popData.findElement(By.linkText("SAVE")).click();
 
         WebElement informationAdded = driver.findElement(By.id("toast-container"));
         String mensagePop= informationAdded.getText();
-        assertEquals("Your contact has been added!" , mensagePop);
+        assertEquals(messageEx , mensagePop);
 
     }
     @Test
-    public void removeInformation(){
-        driver.findElement(By.xpath("//span[text()=\"999969999999999\"]/follow-sibling::a")).click();
+    public void removeInformation() {
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[4]/div[1]/ul/li[52]/a/i")).click();
 
         driver.switchTo().alert().accept();
 
-        WebElement removePhone = driver.findElement(By.id("toast-container"));
-        String mensagePop = removePhone.getText();
-        assertEquals("Rest in peace, dear phone!" , mensagePop);
+        WebElement remove = driver.findElement(By.id("toast-container"));
+        String popMessage = remove.getText();
+        assertEquals("Rest in peace, dear phone!" , popMessage);
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.stalenessOf(mensagePop));
-
-        driver.findElement(By.linkText("Logout")).click();
     }
     @After
     public void tearDown(){
-        //driver.quit();
+        driver.quit();
 
     }
 }
