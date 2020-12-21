@@ -10,25 +10,26 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-
-import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.LoginPage;
+import support.WebMachine;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(DataDrivenTestRunner.class)
-@DataLoader(filePaths = "UserInformations.csv")
-public class UserInformations {
-    private WebDriver driver;
-    @Before
-    public void setUp(){
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\roehr\\IdeaProjects\\Drivers\\Chrome\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-        driver.get("http://www.juliodelima.com.br/taskit/");
+@DataLoader(filePaths = "UserInformations.csv")
+
+public class UserInformations {
+
+    private WebDriver driver;
+
+    @Before
+
+    public void setUp(){
+        driver = WebMachine.createChrome();
 
         driver.findElement(By.linkText("OK, I WANNA SIGN UP NOW")).click();
 
@@ -42,7 +43,7 @@ public class UserInformations {
 
         SignUpBox.findElement(By.linkText("SAVE")).click();
 
-        WebElement me = driver.findElement(By.className("me"));
+        WebElement me = driver.findElement(By.className("me")).click();
         String textMe = me.getText();
         assertEquals("Hi," , textMe);
 
@@ -51,7 +52,16 @@ public class UserInformations {
     }
     @Test
     public void AddInformation(@Param(name="types")String types, @Param(name="contacts")String contacts, @Param(name="messages")String messageEx) {
-        //validation
+        String textToast = new LoginPage(driver)
+                .clickSignUp()
+                .doSignUp("Ana Merchury" ,"anamerchury5555@gmail.com" , "ana5555@!")
+                .clickMe()
+                .clickMoreDataAboutYou()
+                .clickButtonAddMoreDataAboutYou()
+                .AddContact("Phone", "999999999999")
+                .getTextToast()
+                assertEquals("Your contact has been added" , textToast)
+                ;
 
         driver.findElement(By.xpath("//div[@id='moredata']//button[@data-target=\"addmoredata\"]")).click();
 
@@ -70,6 +80,7 @@ public class UserInformations {
     }
     @Test
     public void removeInformation() {
+
         driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[4]/div[1]/ul/li[52]/a/i")).click();
 
         driver.switchTo().alert().accept();
@@ -78,9 +89,14 @@ public class UserInformations {
         String popMessage = remove.getText();
         assertEquals("Rest in peace, dear phone!" , popMessage);
 
+        WebDriverWait waiting = new WebDriverWait(driver, 10);
+
+        waiting.until(ExpectedConditions.stalenessOf(remove));
+
     }
     @After
     public void tearDown(){
+
         driver.quit();
 
     }
