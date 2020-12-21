@@ -9,34 +9,35 @@ public class LoginFormPage extends basePage {
         super(driver);
     }
 
-}
-    public LoginFormPage typeName(String name){
+    public LoginFormPage typeName(String name) {
 
         driver.findElement(By.id("signupbox")).findElement(By.name("name")).sendKeys(name);
 
         return this;
     }
-    public LoginFormPage typeLogin(String login){
+
+    public LoginFormPage typeLogin(String login) {
 
         driver.findElement(By.name("login")).sendKeys(login);
 
         return this;
     }
-    public LoginFormPage typePassword(String password){
+
+    public LoginFormPage typePassword(String password) {
 
         driver.findElement(By.name("password")).sendKeys(password);
 
         return this;
     }
 
-    public homePage clickSave(){
+    public homePage clickSave() {
 
         driver.findElement(By.linkText("SAVE")).click();
 
         return new homePage(driver);
     }
 
-    public homePage doSignUp(String name, String login, String password){
+    public homePage doSignUp(String name, String login, String password) {
 
         typeName(name);
         typeLogin(login);
@@ -45,5 +46,4 @@ public class LoginFormPage extends basePage {
 
         return new homePage(driver);
     }
-
 }

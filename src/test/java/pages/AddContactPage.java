@@ -36,8 +36,8 @@ public class AddContactPage extends basePage {
 
     public  mePage AddContact(String types, String contacts){
 
-        changeTypeContact();
-        typeContact();
+        changeTypeContact(types);
+        typeContact(contacts);
         clickSave();
 
         return new mePage(driver);
