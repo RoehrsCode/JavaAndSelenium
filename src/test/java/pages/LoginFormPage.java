@@ -30,7 +30,7 @@ public class LoginFormPage extends basePage {
         return new homePage(driver);
     }
 
-    public homePage doSignUp(String login, String password) {
+    public homePage doSignIn(String login, String password) {
 
         typeLogin(login);
         typePassword(password);

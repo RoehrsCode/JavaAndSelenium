@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.concurrent.TimeUnit;
 
 public class WebMachine {
+
     public static WebDriver createChrome(){
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\roehr\\IdeaProjects\\Drivers\\Chrome\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
@@ -16,4 +17,5 @@ public class WebMachine {
 
         return driver;
     }
+
 }

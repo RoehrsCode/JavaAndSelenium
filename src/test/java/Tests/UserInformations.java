@@ -7,11 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.LoginPage;
 import support.WebMachine;
 
@@ -20,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(DataDrivenTestRunner.class)
 
 @DataLoader(filePaths = "AddInformation.csv")
-
 public class UserInformations {
 
     private WebDriver driver;
@@ -41,8 +36,9 @@ public class UserInformations {
             @Param(name="password")String password) {
 
         String textToast = new LoginPage(driver)
+
                 .clickSignIn()
-                .doSignUp(login, password)
+                .doSignIn(login, password)
                 .clickMe()
                 .clickMoreDataAboutYou()
                 .clickButtonAddMoreDataAboutYou()
@@ -51,21 +47,22 @@ public class UserInformations {
                 assertEquals(messageEx , textToast);
 
     }
+    @DataLoader(filePaths = "RemoveInformation.csv")
     @Test
-    public void removeInformation() {
+    public void RemoveInformation(
 
-        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[4]/div[1]/ul/li[52]/a/i")).click();
+            @Param(name="login")String login,
+            @Param(name="password")String password,
+            @Param(name="messages")String messages){
 
-        driver.switchTo().alert().accept();
-
-        WebElement remove = driver.findElement(By.id("toast-container"));
-        String popMessage = remove.getText();
-        assertEquals("Rest in peace, dear phone!" , popMessage);
-
-        WebDriverWait waiting = new WebDriverWait(driver, 10);
-
-        waiting.until(ExpectedConditions.stalenessOf(remove));
-
+        String textToastRemove = new LoginPage(driver)
+                .clickSignIn()
+                .doSignIn(login, password)
+                .clickMe()
+                .clickMoreDataAboutYou()
+                .removeContact()
+                .getTextToastRemove();
+                assertEquals(messages , textToastRemove);
     }
     @After
     public void tearDown(){

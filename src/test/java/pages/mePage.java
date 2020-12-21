@@ -22,4 +22,12 @@ public class mePage extends basePage {
 
         return new AddContactPage(driver);
     }
+
+    public mePage removeContact(){
+
+        driver.findElement(By.xpath("//*[@id=\"moredata\"]/div[1]/ul/li/a/i")).click();
+        driver.switchTo().alert().accept();
+
+        return this;
+    }
 }

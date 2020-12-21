@@ -14,4 +14,6 @@ public class basePage {
     public String getTextToast(){
         return driver.findElement(By.id("toast-container")).getText();
     }
+
+    public String getTextToastRemove(){ return driver.findElement(By.id("toast-container")).getText(); }
 }
