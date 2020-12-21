@@ -37,13 +37,12 @@ public class UserInformations {
             @Param(name="types")String types,
             @Param(name="contacts")String contacts,
             @Param(name="messages")String messageEx,
-            @Param(name="name")String name,
             @Param(name="login")String login,
             @Param(name="password")String password) {
 
         String textToast = new LoginPage(driver)
-                .clickSignUp()
-                .doSignUp(name ,login , password)
+                .clickSignIn()
+                .doSignUp(login, password)
                 .clickMe()
                 .clickMoreDataAboutYou()
                 .clickButtonAddMoreDataAboutYou()

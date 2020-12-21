@@ -9,9 +9,8 @@ public class LoginPage extends basePage {
         super(driver);
     }
 
-    public LoginFormPage clickSignUp(){
-        driver.findElement(By.linkText("OK, I WANNA SIGN UP NOW")).click();
-
+    public LoginFormPage clickSignIn(){
+        driver.findElement(By.linkText("Sign in")).click();
         return new LoginFormPage(driver);
     }
 }
